@@ -1,0 +1,10 @@
+# Python
+venv
+dist
+*.egg-info
+build
+
+# IDE
+.idea
+*.iml
+

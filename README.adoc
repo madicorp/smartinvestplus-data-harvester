@@ -1,0 +1,28 @@
+= Smart Invest Plus Data Harvester
+
+== Requirements
+[%hardbreaks]
+Python 2.7
+virtualenv (update it if already installed) `pip install --upgrade virtualenv`
+Upgrade pip `pip install --upgrade pip`
+
+[[venv]]
+== Add venv
+`virtualenv venv`
+
+[[activate-venv]]
+== Activate venv
+[%hardbreaks]
+<<venv>>
+`source venv/bin/activate`
+
+[[init]]
+== Init
+[%hardbreaks]
+<<activate-venv>>
+`python setup.py install`
+
+== Launch
+[%hardbreaks]
+<<init>>
+`scrapy crawl today_quotes_spider`
