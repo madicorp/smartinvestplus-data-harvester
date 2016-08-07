@@ -17,12 +17,12 @@ Upgrade pip `pip install --upgrade pip`
 `source venv/bin/activate`
 
 [[init]]
-== Init
+== Init/build
 [%hardbreaks]
 <<activate-venv>>
-`python setup.py install`
+`python setup.py clean --all install`
 
 == Launch
 [%hardbreaks]
 <<init>>
-`scrapy crawl quotes_spider`
+`scrapy crawl close_rates_spider`

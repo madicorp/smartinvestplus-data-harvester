@@ -10,10 +10,10 @@ class MongoDao(object):
         self.close_rates = self.db['close_rates']
         self.scraped_close_rate_dates = self.db['scraped_close_rate_dates']
 
-    def upsert_security(self, quote):
-        security_code = quote['security_code'].upper()
+    def upsert_security(self, close_rate):
+        security_code = close_rate['security_code'].upper()
         query = {'_id': self.BRVM, 'securities._id': security_code}
-        security_label = quote['security_label']
+        security_label = close_rate['security_label']
         if self.stock_exchanges.find(query).count() > 0:
             update_to_perform = {'$set': {'securities.$.name': security_label}}
             self.stock_exchanges.update_one(query, update_to_perform)
@@ -22,13 +22,14 @@ class MongoDao(object):
             update_to_perform = {'$push': {'securities': {'_id': security_code, 'name': security_label}}}
             self.stock_exchanges.update_one(query, update_to_perform)
 
-    def upsert_quote(self, quote_date, quote):
-        query = {'stock_exchange': self.BRVM, 'security': quote['security_code'].upper()}
-        update_to_perform = {'$set': {'rate': quote['current_quote'], 'date': quote_date, 'generated': False}}
+    def upsert_close_rate(self, close_rate_date, close_rate):
+        query = {'stock_exchange': self.BRVM, 'security': close_rate['security_code'].upper()}
+        update_to_perform = \
+            {'$set': {'rate': close_rate['current_close_rate'], 'date': close_rate_date, 'generated': False}}
         self.close_rates.update_one(query, update_to_perform, True)
 
-    def get_scraped_quotes_dates(self):
+    def get_scraped_close_rate_dates(self):
         return self.scraped_close_rate_dates.distinct('date')
 
-    def insert_scraped_close_rate_date(self, scraped_quote_date):
-        return self.scraped_close_rate_dates.insert({'date': scraped_quote_date})
+    def insert_scraped_close_rate_date(self, scraped_close_rate_date):
+        return self.scraped_close_rate_dates.insert({'date': scraped_close_rate_date})

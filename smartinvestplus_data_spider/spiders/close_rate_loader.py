@@ -2,7 +2,7 @@ import unicodedata
 
 import re
 import scrapy
-from quote import Quote
+from close_rate import CloseRate
 from scrapy.loader.processors import MapCompose, TakeFirst
 from w3lib.html import remove_tags
 
@@ -26,20 +26,20 @@ def _unicode_to_string(value):
     return unicodedata.normalize('NFKD', value).encode('ascii', 'ignore')
 
 
-class QuoteLoader(scrapy.loader.ItemLoader):
+class CloseRatesLoader(scrapy.loader.ItemLoader):
     default_input_processor = MapCompose(remove_tags, unicode.strip, _parse_to_primitive, _unicode_to_string)
     default_output_processor = TakeFirst()
 
     def __init__(self, selector):
-        super(QuoteLoader, self).__init__(item=Quote(), selector=selector)
+        super(CloseRatesLoader, self).__init__(item=CloseRate(), selector=selector)
 
-    def parse_quote(self):
-        _cell_selector = QuoteLoader._cell_selector
-        _bold_cell_selector = QuoteLoader._bold_cell_selector
+    def parse_close_rate(self):
+        _cell_selector = CloseRatesLoader._cell_selector
+        _bold_cell_selector = CloseRatesLoader._bold_cell_selector
         self.add_css('security_code', _cell_selector(2))
         self.add_css('security_label', _cell_selector(3))
-        self.add_css('previous_quote', _cell_selector(4))
-        self.add_css('current_quote', _bold_cell_selector(5))
+        self.add_css('previous_close_rate', _cell_selector(4))
+        self.add_css('current_close_rate', _bold_cell_selector(5))
         self.add_css('exchanged_volume', _cell_selector(6))
         self.add_css('transactions_nb', _cell_selector(7))
         self.add_css('exchanged_value', _cell_selector(8))

@@ -17,8 +17,8 @@ NEWSPIDER_MODULE = 'smartinvestplus_data_spider.spiders'
 # Configure item pipelines
 # See http://scrapy.readthedocs.org/en/latest/topics/item-pipeline.html
 ITEM_PIPELINES = {
-    'smartinvestplus_data_spider.pipelines.quotes_parse_pipeline.QuotesParsePipeline': 300,
-    'smartinvestplus_data_spider.pipelines.quotes_mongo_pipeline.QuotesMongoPipeline': 400
+    'smartinvestplus_data_spider.pipelines.close_rates_parse_pipeline.CloseRatesParsePipeline': 300,
+    'smartinvestplus_data_spider.pipelines.close_rates_mongo_pipeline.CloseRatesMongoPipeline': 400
 }
 
 # Crawl responsibly by identifying yourself (and your website) on the user-agent
