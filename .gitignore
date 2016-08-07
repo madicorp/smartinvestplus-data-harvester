@@ -7,4 +7,5 @@ build
 # IDE
 .idea
 *.iml
+.DS_STORE
 

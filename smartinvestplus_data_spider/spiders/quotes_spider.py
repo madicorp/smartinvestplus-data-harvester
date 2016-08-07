@@ -79,5 +79,4 @@ class QuotesSpider(scrapy.Spider):
         mongo_dao = CRAWLER_OBJ_GRAPH.provide(MongoDao)
         quotes_dates_in_db = [Parser.format_date(quote_date) for quote_date in (mongo_dao.get_scraped_quotes_dates())]
         self.quotes_dates = [quote_date for quote_date in quotes_dates if quote_date not in quotes_dates_in_db]
-        self.quotes_dates = sorted(self.quotes_dates, key=Parser.parse_to_date, reverse=True)
-        self.quotes_dates = self.quotes_dates[:5]
+        self.quotes_dates = sorted(self.quotes_dates, key=Parser.parse_to_date)
