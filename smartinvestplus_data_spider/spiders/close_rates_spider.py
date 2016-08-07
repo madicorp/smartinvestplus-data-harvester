@@ -15,7 +15,7 @@ class CloseRatesSpider(scrapy.Spider):
     def parse(self, response):
         if not hasattr(self, 'close_rates_dates'):
             self._extract_close_rates_dates(response)
-            yield self.next_close_rate_query(response)
+            yield self._next_close_rate_request(response)
         else:
             close_rate_date = self.close_rates_dates.pop()
             extracted_close_rates = []
@@ -26,13 +26,14 @@ class CloseRatesSpider(scrapy.Spider):
             if not self.close_rates_dates:
                 # No more close rate to process
                 return
-            yield self.next_close_rate_query(response)
+            yield self._next_close_rate_request(response)
 
-    def next_close_rate_query(self, response):
-        previous_close_rate_date = self.close_rates_dates[-1]
+    def _next_close_rate_request(self, response):
+        close_rate_date = self.close_rates_dates[-1]
+        print 'building post for', close_rate_date
         form_data = {
             '__EVENTTARGET': 'ctl00$Main$DropDownList1',
-            'ctl00$Main$DropDownList1': previous_close_rate_date
+            'ctl00$Main$DropDownList1': close_rate_date
         }
         return scrapy.FormRequest.from_response(response=response, formdata=form_data)
 
@@ -82,4 +83,4 @@ class CloseRatesSpider(scrapy.Spider):
             [Parser.format_date(close_rate_date) for close_rate_date in (mongo_dao.get_scraped_close_rate_dates())]
         self.close_rates_dates = \
             [close_rate_date for close_rate_date in close_rates_dates if close_rate_date not in close_rates_in_db]
-        self.close_rates_dates = sorted(self.close_rates_dates, key=Parser.parse_to_date, reverse=True)
+        self.close_rates_dates = sorted(self.close_rates_dates, key=Parser.parse_to_date)
