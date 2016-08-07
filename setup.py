@@ -12,5 +12,5 @@ setup(name='smartinvestplus_data_spider',
       url='',
       long_description='README.adoc',
       packages=find_packages(),
-      install_requires=['scrapy==1.1.1', 'pymongo']
+      install_requires=['scrapy==1.1.1', 'pinject', 'pymongo', 'shub']
       )

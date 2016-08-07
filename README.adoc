@@ -25,4 +25,4 @@ Upgrade pip `pip install --upgrade pip`
 == Launch
 [%hardbreaks]
 <<init>>
-`scrapy crawl today_quotes_spider`
+`scrapy crawl quotes_spider`
