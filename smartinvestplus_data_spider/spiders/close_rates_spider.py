@@ -83,4 +83,3 @@ class CloseRatesSpider(scrapy.Spider):
         self.close_rates_dates = \
             [close_rate_date for close_rate_date in close_rates_dates if close_rate_date not in close_rates_in_db]
         self.close_rates_dates = sorted(self.close_rates_dates, key=Parser.parse_to_date, reverse=True)
-        self.close_rates_dates = self.close_rates_dates[:5]
